@@ -2,8 +2,6 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.util.Pair;
-import android.widget.Toast;
 
 import com.example.paulnunez.myapplication.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -17,13 +15,24 @@ import java.io.IOException;
  * Snippet from the appEngine template
  * @link https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
  */
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
   private static final String TAG = "EndpointsAsyncTask";
   private static MyApi myApiService = null;
   private Context context;
+  private ResponseCallback response;
+
+  public EndpointsAsyncTask( ResponseCallback callback){
+
+    this.response = callback;
+    execute();
+  }
+
+  public interface ResponseCallback {
+     void onSucces(String result);
+  }
 
   @Override
-  protected String doInBackground(Pair<Context, String>... params) {
+  protected String doInBackground(Void... params) {
 
     if(myApiService == null) {  // Only do this once
       MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
@@ -45,8 +54,8 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
       myApiService = builder.build();
     }
 
-    context = params[0].first;
-    String name = params[0].second;
+//    context = params[0].first;
+//    String name = params[0].second;
 
     try {
       return myApiService.tellJoke().execute().getData();
@@ -57,7 +66,8 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
 
   @Override
   protected void onPostExecute(String result) {
-    Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+//    Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+    response.onSucces(result);
   }
 
 }
