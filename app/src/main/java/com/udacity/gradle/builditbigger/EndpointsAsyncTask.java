@@ -18,11 +18,13 @@ import java.io.IOException;
  * @link https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
  */
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+  private static final String TAG = "EndpointsAsyncTask";
   private static MyApi myApiService = null;
   private Context context;
 
   @Override
   protected String doInBackground(Pair<Context, String>... params) {
+
     if(myApiService == null) {  // Only do this once
       MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
           new AndroidJsonFactory(), null)
@@ -37,6 +39,8 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
             }
           });
       // end options for devappserver
+
+
 
       myApiService = builder.build();
     }
@@ -55,4 +59,5 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
   protected void onPostExecute(String result) {
     Toast.makeText(context, result, Toast.LENGTH_LONG).show();
   }
+
 }
