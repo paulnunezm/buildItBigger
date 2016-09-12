@@ -3,7 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.view.View;
 import com.example.JokesProvider;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
   private JokesProvider jokesProvider;
 
