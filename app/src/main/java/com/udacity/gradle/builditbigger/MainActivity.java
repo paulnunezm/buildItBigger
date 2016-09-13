@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.JokesProvider;
 import com.nunez.jokeexhibition.JokePresenter;
@@ -14,11 +15,15 @@ import com.nunez.jokeexhibition.JokePresenter;
 public class MainActivity extends AppCompatActivity {
 
   private JokesProvider jokesProvider;
+  private View          container;
+  private ProgressBar   progressBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    container = findViewById(R.id.content);
+    progressBar = (ProgressBar) findViewById(R.id.progress);
   }
 
 
@@ -45,13 +50,9 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void tellJoke(View view) {
+    container.setVisibility(View.GONE);
+    progressBar.setVisibility(View.VISIBLE);
 
-//    Toast.makeText(this, jokesProvider.getJoke(), Toast.LENGTH_LONG).show();
-//    Intent jokePresenterIntent = new Intent(this, JokePresenter.class);
-//    jokePresenterIntent.putExtra(JokePresenter.EXTRA_JOKE, jokesProvider.getJoke());
-//    startActivity(jokePresenterIntent);
-
-//    new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     new EndpointsAsyncTask(new EndpointsAsyncTask.ResponseCallback() {
       @Override
       public void onSucces(String result) {
